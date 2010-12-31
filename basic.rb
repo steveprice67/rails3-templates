@@ -46,23 +46,24 @@ run 'rm -f config/initializers/session_store.rb'
 initializer 'session_store.rb', "#{app_const}.config.session_store :active_record_store, :key => '_#{app_name}_#{ActiveSupport::SecureRandom.hex(4)}_session'\n"
 rake 'db:migrate'
 
-inside 'public/javascripts' do
-  run 'rm -f controls.js dragdrop.js effects.js prototype.js rails.js'
-end
-run 'gem install jquery-rails'
-initializer 'jquery-hack.rb', "OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE\n"
-generate 'jquery:install'
-run 'rm -f config/initializers/jquery-hack.rb'
-run 'rm -f public/javascripts/jquery*.js'
-initializer 'jquery-rails.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
-
-run 'rm -rf test'
 append_file 'Gemfile', <<-EOF
 group :test, :development do
+  gem 'jquery-rails'
   gem 'rspec-rails'
 end
 EOF
 run 'bundle install'
+
+inside 'public/javascripts' do
+  run 'rm -f controls.js dragdrop.js effects.js prototype.js rails.js'
+end
+initializer 'jquery-hack.rb', "OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE\n"
+generate 'jquery:install'
+run 'rm -f config/initializers/jquery-hack.rb'
+run 'rm -f public/javascripts/jquery.js'
+initializer 'jquery-rails.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
+
+run 'rm -rf test'
 generate 'rspec:install'
 
 run "find . -type d -empty | egrep -v '(.git|tmp)' | xargs -I xxx touch 'xxx/.gitkeep'"
