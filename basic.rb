@@ -28,12 +28,6 @@ run 'rm -f public/images/rails.png'
 run 'rm -f public/index.html'
 run 'rm -f public/robots.txt'
 
-['Gemfile', 'config/routes.rb', 'config/application.rb'].each do |f|
-  gsub_file f, /^\s*(#.*)?$/, ''
-  run "sed -i .orig -e '/^$/d' #{f}"
-end
-run "find . -name '*.orig' -print -delete"
-
 inject_into_class 'config/application.rb', 'Application', <<-EOF
     config.active_record.timestamped_migrations = false
     config.filter_parameters += [:password_confirmation]
