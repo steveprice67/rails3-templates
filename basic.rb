@@ -54,9 +54,6 @@ end
 EOF
 run 'bundle install'
 
-inside 'public/javascripts' do
-  run 'rm -f controls.js dragdrop.js effects.js prototype.js rails.js'
-end
 initializer 'jquery-hack.rb', "OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE\n"
 generate 'jquery:install'
 run 'rm -f config/initializers/jquery-hack.rb'
