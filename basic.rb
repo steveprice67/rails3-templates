@@ -69,5 +69,4 @@ generate 'rspec:install'
 run "find . -type d -empty | egrep -v '(.git|tmp)' | xargs -I xxx touch 'xxx/.gitkeep'"
 
 git :init
-git :add => '.'
-git :commit => "-m '#{template} template applied'"
+git :add => '.', :commit => "-m '#{template} template applied'"
