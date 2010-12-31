@@ -7,8 +7,6 @@
 # - jQuery instead of prototype
 # - rspec instead of Test:Unit
 
-template = File.basename(__FILE__)
-
 run 'rm -f .gitignore'
 file '.gitignore', <<-EOF
 *.swp
@@ -67,4 +65,4 @@ generate 'rspec:install'
 run "find . -type d -empty | egrep -v '(.git|tmp)' | xargs -I xxx touch 'xxx/.gitkeep'"
 
 git :init
-git :add => '.', :commit => "-m '#{template} template applied'"
+git :add => '.', :commit => "-m '#{File.basename(__FILE__)} template applied'"
