@@ -55,7 +55,7 @@ initializer 'jquery-hack.rb', "OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_
 generate 'jquery:install'
 run 'rm -f config/initializers/jquery-hack.rb'
 run 'rm -f public/javascripts/jquery.js'
-initializer 'jquery-rails.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
+initializer 'jquery.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
 
 run 'rm -rf test'
 generate 'rspec:install'
