@@ -1,0 +1,6 @@
+This is a library of rails 3 templates for things I find myself
+repeating for new projects.
+
+Apply the basic template with the following command:
+
+  rails new app_name -m path/to/basic.rb
