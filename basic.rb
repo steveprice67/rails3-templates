@@ -70,4 +70,4 @@ run "find . -type d -empty | egrep -v '(.git|tmp)' | xargs -I xxx touch 'xxx/.gi
 
 git :init
 git :add => '.'
-git :commit => "-a -m '#{template} template applied'"
+git :commit => "-m '#{template} template applied'"
