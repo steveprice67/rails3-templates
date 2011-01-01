@@ -1,4 +1,4 @@
-run 'rm -f .gitignore'
+remove_file '.gitignore'
 file '.gitignore', <<-EOF
 *.swp
 **/*.swp

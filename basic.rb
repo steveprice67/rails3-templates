@@ -1,66 +1,17 @@
-# Basic rails 3 app template with:
-#
-# - git repository
-# - password_confirmation filtered
-# - numbered (not timestamped) migrations
-# - active record session store
-# - jQuery instead of prototype
-# - rspec instead of Test:Unit
+# Basic rails 3 application template
 
-run 'rm -f .gitignore'
-file '.gitignore', <<-EOF
-*.swp
-**/*.swp
-.bundle
-Gemfile.lock
-EOF
-file 'db/.gitignore', "*.sqlite3\n"
-file 'log/.gitignore', "*\n"
-file 'tmp/.gitignore', "*\n"
-file 'vendor/.gitignore', "*\n"
-
-run 'cp config/database.yml config/database.yml.sample'
-run 'echo database.yml > config/.gitignore'
-
-run 'rm -f README'
-run 'rm -r doc'
-run 'rm -f public/images/rails.png'
-run 'rm -f public/index.html'
-run 'rm -f public/robots.txt'
-
-inject_into_class 'config/application.rb', 'Application', <<-EOF
-    config.active_record.timestamped_migrations = false
-    config.filter_parameters += [:password_confirmation]
-EOF
-
-rake 'db:sessions:create'
-rake 'db:migrate'
-
-run 'rm -f config/initializers/session_store.rb'
-initializer 'session_store.rb', <<-EOF
-#{app_const}.config.session_store :active_record_store,
-  :key => '_#{app_name}_#{ActiveSupport::SecureRandom.hex(4)}_session'
-EOF
-
-append_file 'Gemfile', <<-EOF
-group :test, :development do
-  gem 'jquery-rails'
-  gem 'rspec-rails'
+@recipe_dir = File.join(File.expand_path('..', __FILE__), 'recipes')
+def apply_recipe(name)
+  apply File.join(@recipe_dir, name)
 end
-EOF
-run 'bundle install'
 
-initializer 'jquery-hack.rb', "OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE\n"
-run 'rm -f public/javascripts/rails.js'
-generate 'jquery:install'
-run 'rm -f config/initializers/jquery-hack.rb'
-run 'rm -f public/javascripts/jquery.js'
-initializer 'jquery.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
+apply_recipe 'database_yml.rb'
+apply_recipe 'jquery.rb'
+apply_recipe 'numbered_migrations.rb'
+apply_recipe 'password_confirmation.rb'
+apply_recipe 'rm.rb'
+apply_recipe 'rspec.rb'
+apply_recipe 'session_store.rb'
 
-run 'rm -rf test'
-generate 'rspec:install'
-
-run "find . -type d -empty | egrep -v '(.git|tmp)' | xargs -I xxx touch 'xxx/.gitkeep'"
-
-git :init
-git :add => '.', :commit => "-m '#{File.basename(__FILE__)} template applied'"
+# best to perform this action last
+apply_recipe 'git.rb'
