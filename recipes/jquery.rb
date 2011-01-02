@@ -11,4 +11,4 @@ inside 'public/javascripts' do
   OpenSSL::SSL::VERIFY_PEER = peer
 end
 
-initializer 'jquery.rb', "#{app_const}.config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)\n"
+application "  config.action_view.javascript_expansions[:defaults] = %w(jquery.min rails)"
