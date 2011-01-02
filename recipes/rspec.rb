@@ -1,4 +1,8 @@
-append_file 'Gemfile', "group :test, :development do\n  gem 'rspec-rails'\nend"
+append_file 'Gemfile', <<-EOF
+group :test, :development do
+  gem 'rspec-rails'
+end
+EOF
 remove_dir 'test'
 run 'bundle install'
 generate 'rspec:install'
