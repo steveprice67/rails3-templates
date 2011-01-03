@@ -341,7 +341,7 @@ EOF
 
 file 'app/views/roles/_form.html.erb', <<-EOF
 <%= form_for(@role) do |f| %>
-  <%= render :partial => 'shared/error_messages', :target => @role %>
+  <%= render 'shared/error_messages', :target => @role %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
