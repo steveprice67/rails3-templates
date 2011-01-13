@@ -14,8 +14,9 @@ EOF
 remove_file 'app/views/layouts/application.html.erb'
 file 'app/views/layouts/application.html.erb', <<-EOF
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
   <title><%= content_for?(:title) ? yield(:title) : '#{app_const_base}' %></title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
