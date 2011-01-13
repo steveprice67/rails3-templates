@@ -14,7 +14,7 @@ class Create#{users.capitalize} < ActiveRecord::Migration
   def self.up
     create_table :#{users} do |t|
       t.string :username, :null => false
-      t.string :encrypted_password, :limit => 128, :default => '',
+      t.string :password_digest, :limit => 128, :default => '',
         :null => false
       t.string :password_salt, :default => '', :null => false
       t.timestamps
@@ -313,14 +313,13 @@ class #{User} < ActiveRecord::Base
   protected
 
   def authenticates?(password)
-    encrypted_password == self.class._encrypt(password, password_salt)
+    password_digest == _encrypt(password)
   end
 
   def encrypt_password
     return if password.blank?
-    self.password_salt =
-      Digest::SHA1.hexdigest "\#{Time.now.to_s}\#{username}" if new_record?
-    self.encrypted_password = self.class._encrypt(password, self.password_salt)
+    self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)
+    self.password_digest = _encrypt(password)
   end
 
   def password_required?
@@ -333,8 +332,8 @@ class #{User} < ActiveRecord::Base
 
   private
 
-  def self._encrypt(salt, password)
-    Digest::SHA1.hexdigest "\#{salt}\#{password}"
+  def _encrypt(password)
+    Digest::SHA1.hexdigest([password_salt, password].join)
   end
 end
 EOF
