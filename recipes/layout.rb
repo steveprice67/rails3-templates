@@ -37,7 +37,7 @@ file 'app/views/layouts/application.html.erb', <<-EOF
     <%= yield %>
   </div>
   <div id="footer">
-    Copyright &copy;2010, #{app_const_base}. All rights reserved.
+    Copyright &copy;2011, #{app_const_base}. All rights reserved.
   </div>
 </body>
 </html>
